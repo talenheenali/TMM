@@ -1,4 +1,4 @@
-package net.simplifiedcoding.navigationdrawerexample;
+package talen.HJL.TTM;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import talen.HJL.TTM.R;
 
 /**
  * Created by Belal on 18/09/16.

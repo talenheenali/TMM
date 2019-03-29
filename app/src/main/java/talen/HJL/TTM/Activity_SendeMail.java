@@ -1,4 +1,4 @@
-package net.simplifiedcoding.navigationdrawerexample;
+package talen.HJL.TTM;
 
 import android.content.Intent;
 import android.os.Build;
@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Button;
+
+import talen.HJL.TTM.R;
 
 /**
  * Created by Heenali on 26/3/2019.

@@ -1,4 +1,4 @@
-package net.simplifiedcoding.navigationdrawerexample;
+package talen.HJL.TTM;
 
 import android.content.Intent;
 import android.os.Build;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import talen.HJL.TTM.R;
+
 /**
  * Created by Heenali on 16/3/2019.
  */
@@ -18,10 +20,12 @@ public class Activiry_setting extends AppCompatActivity {
     TextView delete;
     ImageView back_btn;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
             getWindow().setStatusBarColor(ContextCompat.getColor(Activiry_setting.this, R.color.appcolor2));
         }
         delete=(TextView)findViewById(R.id.delete);

@@ -1,5 +1,4 @@
-package net.simplifiedcoding.navigationdrawerexample;
-
+package talen.HJL.TTM;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,6 +22,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.kaopiz.kprogresshud.KProgressHUD;
+
+import talen.HJL.TTM.R;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +41,8 @@ public class Activity_Login extends AppCompatActivity {
     Button btn_login;
     EditText txt_pass,txt_email;
     ConnectionDetector cd;
+    KProgressHUD hud;
+    SessionManager sm;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -46,6 +52,7 @@ public class Activity_Login extends AppCompatActivity {
         {
             getWindow().setStatusBarColor(ContextCompat.getColor(Activity_Login.this, R.color.appcolor2));
         }
+        sm = new SessionManager(Activity_Login.this);
         cd = new ConnectionDetector(Activity_Login.this);
         txt_email=(EditText) findViewById(R.id.txt_email);
         txt_pass=(EditText) findViewById(R.id.txt_pass);
@@ -102,9 +109,7 @@ public class Activity_Login extends AppCompatActivity {
     }
     public void onLoginFailed()
     {
-        mess("Login failed");
-
-
+        //mess("Login failed");
         btn_login.setEnabled(true);
     }
     public  void mess(String mess)
@@ -112,7 +117,7 @@ public class Activity_Login extends AppCompatActivity {
              Snackbar snackbar = Snackbar.make(btn_login, mess, Snackbar.LENGTH_LONG)
             .setAction("Action", null);
              View sbView = snackbar.getView();
-             sbView.setBackgroundColor(Color.RED);
+             sbView.setBackgroundColor(Color.parseColor("#FA8072"));
              snackbar.show();
     }
     public void onLoginSuccess()
@@ -137,27 +142,37 @@ public class Activity_Login extends AppCompatActivity {
         String mobile_number = txt_email.getText().toString();
         String password = txt_pass.getText().toString();
 
+
         if (mobile_number.isEmpty()) {
-            txt_email.setError("Please enter valid Email Id");
+            mess("Please enter valid Email Id");
+            // txt_email.setError("Please enter valid Email Id");
             valid = false;
-        } else {
-            txt_email.setError(null);
+
+        }
+       else if (password.isEmpty())
+        {
+            mess("Please enter valid password");
+            //txt_pass.setError("Please enter valid password");
+            valid = false;
         }
 
-        if (password.isEmpty()) {
-            txt_pass.setError("Please enter valid password");
-            valid = false;
-        } else {
-            txt_pass.setError(null);
-        }
+
 
         return valid;
     }
     public  void login_call()
     {
+        hud = KProgressHUD.create(Activity_Login.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setWindowColor(getResources().getColor(R.color.appcolor1))
+                .setCancellable(true)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f)
+                .show();
         RequestQueue queue = Volley.newRequestQueue(Activity_Login.this);
 
-        String url = "http://httpbin.org/post";
+        String url = "http://templateapp.talenhosting.com/api/user/login";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -165,22 +180,51 @@ public class Activity_Login extends AppCompatActivity {
                     public void onResponse(String response) {
                         // Display the response string.
                        // _response.setText(response);
-                        Toast.makeText(getApplicationContext(),response,Toast.LENGTH_SHORT).show();
+                        hud.dismiss();
+                       try
+                       {
+                           JSONObject jobj = new JSONObject(response);
+                           String status = jobj.getString("success");
+                           if(status.equalsIgnoreCase("true"))
+                           {
+                               JSONObject object = jobj.getJSONObject("data");
+                               String attr1 = object.getString("jwtid");
+                               sm.createLoginSession(attr1);
+                               sm.setUserId(attr1, attr1, attr1, attr1, attr1, attr1, attr1, attr1, attr1);
+
+                               Intent i=new Intent(getApplicationContext(),MainActivity.class);
+                               startActivity(i);
+                               finish();
+                           }
+                           else
+                           {
+                               mess("Invalid Username or password");
+                           }
+                       }
+                       catch (Exception e)
+                       {
+                           mess("Something Wrong");
+                       }
+
+
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error)
             {
                 //_response.setText("That didn't work!");
-                Toast.makeText(getApplicationContext(),"That didn't work!",Toast.LENGTH_SHORT).show();
+                hud.dismiss();
+                mess("That didn't work!");
+
             }
         }) {
             //adding parameters to the request
             @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
+            protected Map<String, String> getParams() throws AuthFailureError
+            {
                 Map<String, String> params = new HashMap<>();
-                params.put("name", "Alif");
-                params.put("domain", "http://itsalif.info");
+                params.put("email", txt_email.getText().toString());
+                params.put("password", txt_pass.getText().toString());
                 return params;
             }
         };
