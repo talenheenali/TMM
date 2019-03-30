@@ -84,10 +84,10 @@ public class Activity_Login extends AppCompatActivity {
             public void onClick(View v)
             {
 
-               /* Intent i=new Intent(getApplicationContext(),MainActivity.class);
+               Intent i=new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(i);
-                finish();*/
-                login();
+                finish();
+               // login();
             }
         });
 

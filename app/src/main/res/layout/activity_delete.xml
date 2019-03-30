@@ -9,8 +9,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:paddingTop="120dp"
-        android:paddingBottom="30dp"
+        android:paddingTop="60dp"
+        android:paddingBottom="10dp"
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_height="wrap_content">
@@ -18,8 +18,8 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:src="@drawable/login_logo" />
+            android:layout_height="100dp"
+            android:src="@drawable/applogo" />
 
     </LinearLayout>
 
@@ -41,7 +41,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:ems="10"
-            android:textColor="#505EFF"
+            android:textColor="@color/colorPrimary"
             android:textSize="30dp"
             android:text="GOODBYE!"/>
 
@@ -91,7 +91,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:ems="10"
-            android:textColor="#505EFF"
+            android:textColor="@color/colorPrimary"
             android:textSize="15dp"
             android:text="Hope we meet in another world!"/>
     </LinearLayout>

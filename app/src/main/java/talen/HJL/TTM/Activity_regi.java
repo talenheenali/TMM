@@ -27,6 +27,7 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 
 import talen.HJL.TTM.R;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -59,10 +60,12 @@ public class Activity_regi extends AppCompatActivity {
                 finish();
             }
         });
-        btn_regi.setOnClickListener(new View.OnClickListener() {
+        btn_regi.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                regi();
+            public void onClick(View v)
+            {
+               // regi();
             }
         });
     }
@@ -201,13 +204,20 @@ public class Activity_regi extends AppCompatActivity {
                                 String mess = object.getString("message");
                                 mess(mess);
                                // finish();
+                                txt_fname.setText("");
+                                txt_lname.setText("");
                                 txt_email.setText("");
                                 txt_pass.setText("");
                                 txt_cofpass.setText("");
                             }
                             else
                             {
-                                mess("Wrong");
+                                JSONObject object = jobj.getJSONObject("data");
+                                JSONObject object1 = object.getJSONObject("error");
+                                JSONArray subArray = object1.getJSONArray("password");
+                                String messd=subArray.toString().replace("[\""," ");
+                                messd=messd.replace("\"]"," ");
+                                mess(messd);
                             }
                         }
                         catch (Exception e)
