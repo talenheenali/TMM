@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity
 
         //add this line to display menu1 when the activity is loaded
         displaySelectedScreen(R.id.nav_menu1);
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     @Override
